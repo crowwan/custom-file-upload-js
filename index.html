@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom File Upload Button w/ File List</title>
+  <style>
+    
+    .file-upload{
+      display: inline-block;
+      align-items: center;
+      font-size: 15px;
+    }
+    .file-upload__input{
+      display: none;
+    }
+    .file-upload__button{
+      -webkit-appearance: none;
+      background-color: #00745d;
+      border: 2px solid #009879;
+      border-radius: 4px;
+      outline: none;
+      padding: 0 .5em 0 .8em;
+      margin-right: 15px;
+      color: #fff;
+      font-size: 1em;
+      font-family: sans-serif;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .file-upload_button:active{
+      background-color: #00745D;
+    }
+    .file-upload__label{
+      display: inline-block;
+      max-width: 250px;
+      font-size: 0.95em;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+  </style>
+
+</head>
+<body>
+  <h1>Custom File Upload Button w/ File List</h1>
+  <div class="file-upload">
+    <input class = "file-upload__input"type="file" multiple>
+    <button type ="button" class = "file-upload__button">Choose Fils(s)</button>
+    <span class="file-upload__label"></span>
+  </div>
+
+  <script>
+    Array.prototype.forEach.call(document.querySelectorAll('.file-upload__button'),(button) =>{
+      const hiddenInput = button.parentElement.querySelector('.file-upload__input');
+      const label = button.parentElement.querySelector('.file-upload__label');
+      const defaultLabelText = "No file(s) selected";
+
+      // Set default text for label
+      label.textContent = defaultLabelText;
+      label.title = defaultLabelText;
+
+      button.addEventListener('click',()=>{
+        hiddenInput.click();
+      });
+      hiddenInput.addEventListener('change', ()=> {
+        const fileNameList = Array.prototype.map.call(hiddenInput.files, (file)=>file.name);
+        
+        label.textContent = fileNameList.join(', ') || defaultLabelText;
+        label.title = label.textContent;
+      });
+    });
+    
+  </script>
+</body>
+</html>
